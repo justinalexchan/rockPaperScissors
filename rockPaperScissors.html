@@ -1,11 +1,25 @@
 <!Doctype HTML>
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <html>
+    <Title>RockPaperScissors</Title>
+    <center><header><h1>Welcome to a game of Rock, Paper, Scissors</h1></header></center>
+    <center><h2 id='score'>Player Score: 0    || Computer Score: 0</h2></center>
+    <br></br>
+    <center><h3 id='results'>Results: </h3></center>
+    <br></br>
+    <center>
+        <button id='rockBtn'>Rock</button>
+        <button id='paperBtn'>Paper</button>
+        <button id='scissorsBtn'>Scissors</button>
+    </center>
     <script>
+    //Varibles
+    let playerScore = 0;
+    let comScore = 0;
+    let playerChoice = '';
     //computerPlay Function
     function computerPlay() {
         rng = Math.floor(Math.random() * (2 - 0 + 1) + 0);
-        console.log(rng);
         if(rng == 0){
             return 'rock';
         }else if(rng == 1){
@@ -19,27 +33,46 @@
         if(playerChoice.toLowerCase() == comChoice){
             return 'Tie!';
         }else if(playerChoice.toLowerCase() == 'rock' && comChoice == 'paper' || playerChoice.toLowerCase() == 'paper' && comChoice == 'scissors' || playerChoice.toLowerCase() == 'scissors' && comChoice == 'rock'){
-            return 'You Lose! ' + comChoice + ' beats ' + playerChoice;
+            return 'You Lose! ' + comChoice.toUpperCase() + ' beats ' + playerChoice.toUpperCase() + '.';
         }else {
-            return 'You Win! ' + playerChoice + ' beats ' + comChoice;
+            return 'You Win! ' + playerChoice.toUpperCase() + ' beats ' + comChoice.toUpperCase() +'.';
         }
     }
+    //analysis
+    function analysis() {
+        console.log('score: ' + playerScore);
+        comChoice = computerPlay();
+        result = singleRound(playerChoice, comChoice);
+        if(result.charAt(4)=='W'){
+            playerScore++;
+        }else if(result.charAt(4)=='L'){
+            comScore++;
+        }
+        output ='Results: ' +  result;
+        document.getElementById('results').innerText = output;
+        document.getElementById('score').innerText = 'Player Score: ' + playerScore+'||Computer Score: ' + comScore;
+        setTimeout(function(){}, 1000);
+}
+
     //game Function
     function game() {
-        let playerScore = 0;
-        let comScore = 0;
-        for(i=0; i < 5; i++){
-            playerChoice = window.prompt('Your Choice: ');
-            comChoice = computerPlay();
-            result = singleRound(playerChoice, comChoice);
-            if(result.charAt(4)=='W'){
-                playerScore++;
-            }else{
-                comScore++;
-            }
-            alert(result + '. The Score is: Player-' + playerScore + ' Computer-' + comScore);
-        }
+        playerChoice = '';
+        document.getElementById('rockBtn').addEventListener("click", function(){
+            playerChoice = 'rock';
+            console.log(playerChoice);
+            analysis();
+        })
+        document.getElementById('paperBtn').addEventListener("click", function(){
+            playerChoice = 'paper';
+            console.log('paper');
+            analysis();
+        })
+        document.getElementById('scissorsBtn').addEventListener("click", function(){
+            playerChoice = 'scissors';
+            console.log('scissors');
+            analysis();
+        })
     }
-    game();
+    game()
     </script>
 </html>
